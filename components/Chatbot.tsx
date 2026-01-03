@@ -98,21 +98,20 @@ export default function Chatbot() {
       - LIMIT: Keep responses concise, ideally under 500 characters.
     `;
 
-        const assistantMessage: ChatMessage = {
-            role: "assistant",
-            content: "",
-            timestamp: Date.now(),
-        };
-
-        setMessages(prev => [...prev, assistantMessage]);
-
         const updateStreamingContent = (chunk: string) => {
             if (!chunk) return;
+            setIsTyping(false);
             setMessages(prev => {
                 const newMessages = [...prev];
                 const lastMsg = newMessages[newMessages.length - 1];
                 if (lastMsg && lastMsg.role === 'assistant') {
                     lastMsg.content += chunk;
+                } else {
+                    newMessages.push({
+                        role: 'assistant',
+                        content: chunk,
+                        timestamp: Date.now(),
+                    });
                 }
                 return newMessages;
             });
@@ -144,7 +143,6 @@ export default function Chatbot() {
 
                 const reader = res.body?.getReader();
                 const decoder = new TextDecoder();
-                setIsTyping(false);
 
                 while (reader) {
                     const { done, value } = await reader.read();
@@ -190,7 +188,6 @@ export default function Chatbot() {
 
                 const reader = res.body?.getReader();
                 const decoder = new TextDecoder();
-                setIsTyping(false);
 
                 let buffer = "";
                 while (reader) {
