@@ -101,15 +101,9 @@ export default function Home() {
           Enterprise AI <br />
           <span className="gradient-text">{typingText}</span>
         </h1>
-      </section>
-
-      <section className="mission-section reveal">
-        <div className="container">
-          <p className="mission-text">
-            We are building a world-class AI ecosystem in Belgaum. From Gen AI & RAG systems to Agentic workflows and
-            Corporate training, the future of intelligence starts here.
-          </p>
-        </div>
+        <p className="hero-mission-text reveal">
+          We are building a world-class AI ecosystem in Belgaum. From Gen AI & RAG systems to Agentic workflows, the future of intelligence starts here.
+        </p>
       </section>
 
       {/* Core Pillars Grid */}
@@ -117,7 +111,6 @@ export default function Home() {
         <div className="container">
           <div className="section-title reveal">
             <h2>Core <span className="gradient-text">Pillars</span></h2>
-            <p>Deploying advanced AI solutions across academic and industrial landscapes.</p>
           </div>
 
           <div className="services-grid">

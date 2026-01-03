@@ -188,32 +188,16 @@ header {
   min-width: 15ch;
 }
 
-.hero p {
+.hero-mission-text {
   font-size: 1.25rem;
   color: var(--text-dim);
-  max-width: 750px;
-}
-
-.mission-section {
-  padding: 100px 1.5rem;
-  text-align: center;
-  position: relative;
-  z-index: 10;
-  background: rgba(255, 255, 255, 0.02);
-  border-top: 1px solid var(--glass-border);
-  border-bottom: 1px solid var(--glass-border);
-}
-
-.mission-text {
   max-width: 800px;
-  margin: 0 auto;
-  font-size: 1.35rem;
+  margin: 1.5rem auto 0;
   line-height: 1.6;
-  color: var(--text-dim);
 }
 
 .services-section {
-  padding: 120px 0 60px;
+  padding: 80px 0 60px;
 }
 
 /* Pillars Section */
@@ -959,4 +943,22 @@ footer {
   to {
     transform: rotate(360deg);
   }
+}
+/* Security Widget */
+.turnstile-container {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.chat-send-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(1);
 }
