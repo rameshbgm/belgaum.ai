@@ -271,7 +271,7 @@ export default function Home() {
 
           <div className="tools-master-grid">
             <div className="tools-explainer reveal">
-              <h5>Tools Used In: GenAI Learning Ecosystem</h5>
+              <h5>GenAI Learning Ecosystem</h5>
               <div className="tools-grid-explained">
                 <div className="tool-box-info">
                   <strong>OpenAI o1 / Claude 3.5</strong>
@@ -293,7 +293,7 @@ export default function Home() {
             </div>
 
             <div className="tools-explainer reveal">
-              <h5>Tools Used In: Agentic Orchestration Stack</h5>
+              <h5>Agentic Orchestration Stack</h5>
               <div className="tools-grid-explained">
                 <div className="tool-box-info">
                   <strong>LangGraph & CrewAI</strong>
@@ -315,7 +315,7 @@ export default function Home() {
             </div>
 
             <div className="tools-explainer reveal">
-              <h5>Tools Used In: Enterprise AI Suite</h5>
+              <h5>Enterprise AI Suite</h5>
               <div className="tools-grid-explained">
                 <div className="tool-box-info">
                   <strong>Python / Java / Node.js</strong>
