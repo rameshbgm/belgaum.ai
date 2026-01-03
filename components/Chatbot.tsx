@@ -3,7 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import { MessageCircle, Minimize2, Send, X, Clock, User, Cpu } from "lucide-react";
 import { saveMessage, getMessages, clearOldMessages, ChatMessage } from "@/lib/db";
-import { KNOWLEDGE_BASE } from "@/data/knowledge-base";
+import { CHAT_CONFIG } from "@/lib/chat-config";
+import { OPENAI_CONFIG } from "@/lib/openai-config";
+import { GEMINI_CONFIG } from "@/lib/gemini-config";
+import { SYSTEM_PROMPT } from "@/data/prompts";
 
 export default function Chatbot() {
     const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +14,11 @@ export default function Chatbot() {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [isTyping, setIsTyping] = useState(false);
     const [currentTime, setCurrentTime] = useState("");
+    const [lastUserMessageTime, setLastUserMessageTime] = useState(Date.now());
+    const [isSummarizing, setIsSummarizing] = useState(false);
+    const [nudgeCount, setNudgeCount] = useState(0);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const nudgeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
     // Update Clock
     useEffect(() => {
@@ -33,20 +40,65 @@ export default function Chatbot() {
         return () => window.removeEventListener("keydown", handleEsc);
     }, []);
 
+    // Inactivity Nudge Logic
+    useEffect(() => {
+        if (!isOpen || isTyping || messages.length < 6) return; // Wait for at least 3 exchanges
+
+        if (nudgeTimerRef.current) clearTimeout(nudgeTimerRef.current);
+
+        nudgeTimerRef.current = setTimeout(async () => {
+            const lastMsg = messages[messages.length - 1];
+            if (lastMsg && lastMsg.role === 'assistant') {
+                if (nudgeCount >= CHAT_CONFIG.MAX_NUDGES - 1) {
+                    // Final nudge / Disconnect
+                    const disconnectMsg: ChatMessage = {
+                        role: 'assistant',
+                        content: "I've been waiting for a while. To protect your data, I'm clearing this conversation and closing the session. Please reach out when you're ready to build!",
+                        timestamp: Date.now()
+                    };
+                    setMessages([disconnectMsg]);
+                    await saveMessage(disconnectMsg);
+
+                    setTimeout(async () => {
+                        const db = await import('@/lib/db');
+                        const database = await db.initDB();
+                        await database.clear('messages');
+                        setMessages([]);
+                        setIsOpen(false);
+                        setNudgeCount(0);
+                    }, 3000);
+                } else {
+                    const nudgeMsg: ChatMessage = {
+                        role: 'assistant',
+                        content: CHAT_CONFIG.NUDGE_MESSAGE,
+                        timestamp: Date.now()
+                    };
+                    setMessages(prev => [...prev, nudgeMsg]);
+                    setNudgeCount(prev => prev + 1);
+                    await saveMessage(nudgeMsg);
+                }
+            }
+        }, CHAT_CONFIG.INACTIVITY_NUDGE_SECONDS * 1000);
+
+        return () => {
+            if (nudgeTimerRef.current) clearTimeout(nudgeTimerRef.current);
+        };
+    }, [messages, isOpen, isTyping, nudgeCount]);
+
     // Load chat on mount and check memory on open
     useEffect(() => {
-        loadChat();
+        if (isOpen) loadChat();
     }, [isOpen]);
 
     const loadChat = async () => {
-        // Clear messages older than 5 minutes
-        await clearOldMessages(5);
+        // Clear messages older than defined threshold
+        await clearOldMessages(CHAT_CONFIG.HISTORY_DURATION_SECONDS);
         const history = await getMessages();
 
         if (history.length === 0) {
             const welcome: ChatMessage = {
                 role: "assistant",
-                content: "Welcome to Belgaum.ai! We are here to orchestrate your AI journey. How can we help you build the future today?",
+                content: CHAT_CONFIG.WELCOME_MESSAGE,
                 timestamp: Date.now(),
             };
             await saveMessage(welcome);
@@ -62,7 +114,7 @@ export default function Chatbot() {
     }, [messages, isTyping]);
 
     const handleSend = async () => {
-        if (!input.trim() || isTyping || input.length > 250) return;
+        if (!input.trim() || isTyping || input.length > CHAT_CONFIG.MAX_INPUT_LENGTH) return;
 
         const userQuery = input;
         const userMessage: ChatMessage = {
@@ -73,6 +125,8 @@ export default function Chatbot() {
 
         setMessages((prev) => [...prev, userMessage]);
         setInput("");
+        setLastUserMessageTime(Date.now());
+        setNudgeCount(0); // Reset nudge count on new user message
         await saveMessage(userMessage);
 
         setIsTyping(true);
@@ -87,29 +141,26 @@ export default function Chatbot() {
 
     const fetchAssistantStreamingResponse = async (userQuery: string, fullHistory: ChatMessage[]) => {
         const provider = process.env.NEXT_PUBLIC_LLM_PROVIDER || "gemini";
-        const systemPrompt = `
-      ${KNOWLEDGE_BASE}
-      
-      Additional Instructions:
-      - Strictly follow the guardrails in the knowledge base.
-      - Use conversational history for context.
-      - Answer ONLY from the knowledge base.
-      - Output ONLY plain text paragraphs. No markdown bolding, hashtags, or asterisks.
-      - LIMIT: Keep responses concise, ideally under 500 characters.
-    `;
+        const systemPrompt = SYSTEM_PROMPT;
+        let fullContent = "";
 
         const updateStreamingContent = (chunk: string) => {
             if (!chunk) return;
             setIsTyping(false);
+            fullContent += chunk;
+
             setMessages(prev => {
                 const newMessages = [...prev];
                 const lastMsg = newMessages[newMessages.length - 1];
                 if (lastMsg && lastMsg.role === 'assistant') {
-                    lastMsg.content += chunk;
+                    newMessages[newMessages.length - 1] = {
+                        ...lastMsg,
+                        content: fullContent
+                    };
                 } else {
                     newMessages.push({
                         role: 'assistant',
-                        content: chunk,
+                        content: fullContent,
                         timestamp: Date.now(),
                     });
                 }
@@ -130,10 +181,10 @@ export default function Chatbot() {
                         'Authorization': `Bearer ${apiKey}`
                     },
                     body: JSON.stringify({
-                        model: model,
-                        stream: true,
-                        temperature: 0.7,
-                        max_tokens: 200,
+                        model: OPENAI_CONFIG.MODEL,
+                        stream: OPENAI_CONFIG.STREAM,
+                        temperature: OPENAI_CONFIG.TEMPERATURE,
+                        max_tokens: OPENAI_CONFIG.MAX_TOKENS,
                         messages: [
                             { role: 'system', content: systemPrompt },
                             ...fullHistory.map(m => ({ role: m.role, content: m.content })),
@@ -182,7 +233,10 @@ export default function Chatbot() {
                             parts: [{ text: m.content }]
                         }))],
                         systemInstruction: { parts: [{ text: systemPrompt }] },
-                        generationConfig: { temperature: 0.7, maxOutputTokens: 200 }
+                        generationConfig: {
+                            temperature: GEMINI_CONFIG.TEMPERATURE,
+                            maxOutputTokens: GEMINI_CONFIG.MAX_OUTPUT_TOKENS
+                        }
                     })
                 });
 
@@ -230,12 +284,85 @@ export default function Chatbot() {
             }
         }
 
-        setMessages(prev => {
-            const lastMsg = prev[prev.length - 1];
-            if (lastMsg && lastMsg.role === 'assistant') saveMessage(lastMsg);
-            return prev;
-        });
+        if (fullContent) {
+            await saveMessage({
+                role: 'assistant',
+                content: fullContent,
+                timestamp: Date.now(),
+            });
+        }
         setIsTyping(false);
+    };
+
+    const fetchConversationSummary = async () => {
+        const provider = process.env.NEXT_PUBLIC_LLM_PROVIDER || "gemini";
+        // TOON (Token Optimized Output Notation) - Saving tokens with compact prefixes
+        const convText = messages.map(m => `${m.role[0].toUpperCase()}:${m.content}`).join("\n");
+        const prompt = `${CHAT_CONFIG.SUMMARIZATION_PROMPT}\n\nCONV:\n${convText}`;
+
+        try {
+            if (provider === "openai") {
+                const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+                const endpoint = process.env.NEXT_PUBLIC_OPENAI_ENDPOINT || "https://api.openai.com/v1/chat/completions";
+                const res = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                    body: JSON.stringify({
+                        model: OPENAI_CONFIG.MODEL,
+                        messages: [{ role: 'user', content: prompt }],
+                        temperature: 0.2,
+                        max_tokens: 150
+                    })
+                });
+                const data = await res.json();
+                return data.choices[0]?.message?.content || "";
+            } else {
+                const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+                const model = process.env.NEXT_PUBLIC_GEMINI_MODEL || "gemini-1.5-flash";
+                const endpoint = `${process.env.NEXT_PUBLIC_GEMINI_ENDPOINT || "https://generativelanguage.googleapis.com/v1beta/models"}/${model}:generateContent?key=${apiKey}`;
+                const res = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: { temperature: 0.2, maxOutputTokens: 150 }
+                    })
+                });
+                const data = await res.json();
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+            }
+        } catch (e) {
+            console.error("Summary error:", e);
+            return "Hi Belgaum.ai, I am interested in your AI orchestration solutions.";
+        }
+    };
+
+    const handleWhatsAppClick = async () => {
+        setIsSummarizing(true);
+        let summary = await fetchConversationSummary();
+        setIsSummarizing(false);
+
+        // Ensure the message always starts with the required phrase
+        const prefix = "I am enquiring about ";
+        if (!summary.toLowerCase().startsWith("i am enquiring about")) {
+            summary = prefix + summary;
+        }
+
+        const encodedMsg = encodeURIComponent(summary.trim());
+        window.open(`${CHAT_CONFIG.WHATSAPP_LINK}?text=${encodedMsg}`, "_blank");
+    };
+
+    const formatMessageTime = (ts: number) => {
+        const d = new Date(ts);
+        return d.toLocaleString([], {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        });
     };
 
     return (
@@ -259,14 +386,41 @@ export default function Chatbot() {
                     </div>
 
                     <div className="chat-messages">
-                        {messages.map((m, i) => (
-                            <div key={i} className={`message ${m.role}`}>
-                                <div className="message-icon">
-                                    {m.role === 'assistant' ? <Cpu size={18} /> : <User size={18} />}
+                        {messages.map((m, i) => {
+                            const hasWhatsApp = m.role === 'assistant' && m.content.includes("[OFFER_WHATSAPP]");
+                            const cleanContent = m.content.replace("[OFFER_WHATSAPP]", "").trim();
+
+                            return (
+                                <div key={i} className={`message ${m.role}`}>
+                                    <div className="message-icon">
+                                        {m.role === 'assistant' ? <Cpu size={18} /> : <User size={18} />}
+                                    </div>
+                                    <div className="message-content-wrapper">
+                                        <div className="message-text">{cleanContent}</div>
+                                        {hasWhatsApp && (
+                                            <button
+                                                className="whatsapp-button"
+                                                onClick={handleWhatsAppClick}
+                                                disabled={isSummarizing}
+                                                title="Connect on WhatsApp"
+                                            >
+                                                {isSummarizing ? (
+                                                    <div className="loader-mini" />
+                                                ) : (
+                                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                                                    </svg>
+                                                )}
+                                                <span>{isSummarizing ? "Analyzing History..." : "Tap to WhatsApp Connect"}</span>
+                                            </button>
+                                        )}
+                                        <div className="message-time">
+                                            {formatMessageTime(m.timestamp)}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="message-text">{m.content}</div>
-                            </div>
-                        ))}
+                            );
+                        })}
                         {isTyping && (
                             <div className="message assistant thinking-dots">
                                 <div className="message-icon"><Cpu size={18} /></div>
@@ -281,32 +435,32 @@ export default function Chatbot() {
                             <input
                                 type="text"
                                 className="chat-input"
-                                placeholder="Describe your AI challenge..."
+                                placeholder={CHAT_CONFIG.PLACEHOLDER_TEXT}
                                 value={input}
-                                maxLength={250}
+                                maxLength={CHAT_CONFIG.MAX_INPUT_LENGTH}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
                             />
                             <button
                                 className="chat-send-btn"
                                 onClick={handleSend}
-                                disabled={!input.trim() || isTyping || input.length > 250}
+                                disabled={!input.trim() || isTyping || input.length > CHAT_CONFIG.MAX_INPUT_LENGTH}
                                 aria-label="Send Message"
-                                title={input.length >= 250 ? "Message limit reached" : "Send Message"}
+                                title={input.length >= CHAT_CONFIG.MAX_INPUT_LENGTH ? "Message limit reached" : "Send Message"}
                             >
                                 <Send size={18} />
                             </button>
                         </div>
                         <div className="input-info">
-                            <span className="input-label">Strategic AI Assistant</span>
+                            <span className="input-label">{CHAT_CONFIG.INPUT_LABEL}</span>
                             <span
                                 className="input-count"
                                 style={{
-                                    '--count-color': `rgb(${Math.min(255, (input.length / 250) * 255 * 2)}, ${Math.min(255, (1 - input.length / 250) * 255 * 2)}, 0)`,
-                                    fontWeight: input.length > 230 ? 'bold' : 'normal'
+                                    '--count-color': `rgb(${Math.min(255, (input.length / CHAT_CONFIG.MAX_INPUT_LENGTH) * 255 * 2)}, ${Math.min(255, (1 - input.length / CHAT_CONFIG.MAX_INPUT_LENGTH) * 255 * 2)}, 0)`,
+                                    fontWeight: input.length > (CHAT_CONFIG.MAX_INPUT_LENGTH - 20) ? 'bold' : 'normal'
                                 } as React.CSSProperties}
                             >
-                                ({input.length}/250)
+                                ({input.length}/{CHAT_CONFIG.MAX_INPUT_LENGTH})
                             </span>
                         </div>
                     </div>

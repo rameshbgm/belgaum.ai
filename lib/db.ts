@@ -35,9 +35,9 @@ export async function getMessages(): Promise<ChatMessage[]> {
     return db.getAllFromIndex(STORE_NAME, 'timestamp');
 }
 
-export async function clearOldMessages(minutes: number = 5) {
+export async function clearOldMessages(seconds: number = 259200) {
     const db = await initDB();
-    const threshold = Date.now() - minutes * 60 * 1000;
+    const threshold = Date.now() - seconds * 1000;
     const tx = db.transaction(STORE_NAME, 'readwrite');
     const index = tx.store.index('timestamp');
     let cursor = await index.openCursor(IDBKeyRange.upperBound(threshold));
