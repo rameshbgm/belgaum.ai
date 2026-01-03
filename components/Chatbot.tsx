@@ -1,6 +1,5 @@
 "use client";
 
-import { Turnstile } from "@marsidev/react-turnstile";
 import { useState, useEffect, useRef } from "react";
 import { MessageCircle, Minimize2, Send, X, Clock, User, Cpu } from "lucide-react";
 import { saveMessage, getMessages, clearOldMessages, ChatMessage } from "@/lib/db";
@@ -12,7 +11,6 @@ export default function Chatbot() {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [isTyping, setIsTyping] = useState(false);
     const [currentTime, setCurrentTime] = useState("");
-    const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     // Update Clock
@@ -64,7 +62,7 @@ export default function Chatbot() {
     }, [messages, isTyping]);
 
     const handleSend = async () => {
-        if (!input.trim() || isTyping || input.length > 250 || !turnstileToken) return;
+        if (!input.trim() || isTyping || input.length > 250) return;
 
         const userQuery = input;
         const userMessage: ChatMessage = {
@@ -282,15 +280,6 @@ export default function Chatbot() {
                     </div>
 
                     <div className="chat-input-area">
-                        {!turnstileToken && (
-                            <div className="turnstile-container">
-                                <Turnstile
-                                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
-                                    onSuccess={(token) => setTurnstileToken(token)}
-                                    options={{ theme: "dark" }}
-                                />
-                            </div>
-                        )}
                         <div className="chat-input-row">
                             <input
                                 type="text"
@@ -304,9 +293,9 @@ export default function Chatbot() {
                             <button
                                 className="chat-send-btn"
                                 onClick={handleSend}
-                                disabled={!input.trim() || isTyping || input.length > 250 || !turnstileToken}
+                                disabled={!input.trim() || isTyping || input.length > 250}
                                 aria-label="Send Message"
-                                title={!turnstileToken ? "Please solve security challenge" : input.length >= 250 ? "Message limit reached" : "Send Message"}
+                                title={input.length >= 250 ? "Message limit reached" : "Send Message"}
                             >
                                 <Send size={18} />
                             </button>
