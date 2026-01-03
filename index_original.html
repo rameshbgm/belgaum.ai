@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belgaum.ai | Enterprise AI Orchestration & EduTech (Coming Soon)</title>
+
+    <!-- SEO & Geo Tags -->
+    <meta name="description"
+        content="Belgaum.ai - Enterprise AI Orchestration, Gen AI, RAG, and Agentic AI Solutions. Coming Soon to transform AI EduTech and Corporate Training.">
+    <meta name="keywords"
+        content="Belgaum AI, AI EduTech, Corporate AI Training, AI Development, Agentic AI, RAG Systems, AI Startup Belgaum">
+    <meta name="author" content="Belgaum.ai">
+    <meta name="geo.region" content="IN-KA">
+    <meta name="geo.placename" content="Belgaum">
+    <meta name="geo.position" content="15.8497;74.4977">
+    <meta name="ICBM" content="15.8497, 74.4977">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-darker: #010409;
+            --primary: #1E3A8A;
+            --accent-cyan: #00D9FF;
+            --accent-purple: #8B5CF6;
+            --accent-pink: #FF00E5;
+            --accent-lime: #39FF14;
+            --accent-emerald: #10B981;
+            --text-white: #FFFFFF;
+            --text-dim: #94A3B8;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Background Effects */
+        #hero-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .gradient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--primary);
+            top: -10%;
+            left: -10%;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-purple);
+            bottom: 10%;
+            right: -5%;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 80px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo .brand {
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo .suffix {
+            color: var(--accent-cyan);
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            z-index: 10;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 140px 1.5rem 40px;
+        }
+
+        .coming-soon-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.25rem;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 100px;
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 217, 255, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(0, 217, 255, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 217, 255, 0);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            min-height: 2.2em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #fff, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        #typing-text {
+            display: inline-block;
+            text-align: center;
+            min-width: 15ch;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            max-width: 750px;
+        }
+
+        /* Pillars Section */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            padding: 0 1.5rem 40px;
+        }
+
+        .service-card {
+            position: relative;
+            padding: 1.5px;
+            border-radius: 24px;
+            background: transparent;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            animation: rotate 6s linear infinite;
+        }
+
+        .card-edu::before {
+            background: conic-gradient(transparent, var(--accent-cyan), var(--accent-lime), var(--accent-cyan), transparent 40%);
+        }
+
+        .card-dev::before {
+            background: conic-gradient(transparent, var(--accent-purple), var(--accent-pink), var(--accent-purple), transparent 40%);
+        }
+
+        .card-corp::before {
+            background: conic-gradient(transparent, var(--accent-emerald), var(--accent-cyan), var(--accent-emerald), transparent 40%);
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .service-card-inner {
+            position: relative;
+            background: var(--bg-dark);
+            padding: 2.5rem;
+            border-radius: 22.5px;
+            height: 100%;
+            z-index: 1;
+            backdrop-filter: blur(12px);
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--accent-cyan);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* AI Strategy Tool Section */
+        .ai-tool-section {
+            padding: 80px 1.5rem;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+            border-top: 1px solid var(--glass-border);
+            position: relative;
+            z-index: 10;
+        }
+
+        .ai-tool-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 3rem;
+            border-radius: 32px;
+            backdrop-filter: blur(12px);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .ai-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .ai-textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            color: white;
+            font-family: inherit;
+            resize: none;
+            min-height: 120px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .ai-textarea:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        .ai-btn {
+            background: var(--gradient-main);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .ai-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .ai-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .ai-result-box {
+            margin-top: 2rem;
+            padding: 2rem;
+            border-radius: 16px;
+            background: rgba(0, 217, 255, 0.05);
+            border-left: 4px solid var(--accent-cyan);
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Detail Sections */
+        .detail-section {
+            padding: 80px 1.5rem 40px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .detail-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 968px) {
+            .detail-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .detail-text h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .detail-text p {
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: var(--text-white);
+        }
+
+        .feature-list li i {
+            color: var(--accent-cyan);
+            width: 18px;
+        }
+
+        .enhanced-card {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .enhanced-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .enhanced-card ul {
+            list-style: none;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        .enhanced-card ul li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .enhanced-card ul li::before {
+            content: '→';
+            color: var(--accent-cyan);
+        }
+
+        /* Tools Explainer Section */
+        .tools-explainer {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .tools-explainer h5 {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent-cyan);
+            margin-bottom: 2rem;
+            text-align: center;
+            opacity: 0.6;
+        }
+
+        .tools-grid-explained {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-box-info {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .tool-box-info:hover {
+            border-color: rgba(0, 217, 255, 0.2);
+        }
+
+        .tool-box-info strong {
+            color: var(--accent-cyan);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .tool-box-info p {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            line-height: 1.4;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-darker);
+            border-top: 1px solid var(--glass-border);
+            padding: 5rem 1.5rem 3rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1.2fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        @media (max-width: 968px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .footer-col h4 {
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            margin-bottom: 1rem;
+            transition: color 0.3s;
+        }
+
+        .contact-link:hover {
+            color: white;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 1s all ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <canvas id="hero-canvas"></canvas>
+
+    <header>
+        <a href="#" class="logo">
+            <i data-lucide="cpu" style="margin-right: 8px; color: var(--accent-cyan);"></i>
+            <span class="brand">Belgaum</span><span class="suffix">.ai</span>
+        </a>
+    </header>
+
+    <section class="hero">
+        <div class="coming-soon-badge">
+            <span class="w-2 h-2 bg-cyan-400 rounded-full"></span>
+            Launching Early 2026
+        </div>
+        <h1>
+            Enterprise AI <br>
+            <span class="gradient-text" id="typing-text">Orchestration</span>
+        </h1>
+        <p>
+            We are building a world-class AI ecosystem in Belgaum. From Gen AI & RAG systems to Agentic workflows and
+            Corporate training, the future of intelligence starts here.
+        </p>
+    </section>
+
+    <!-- Core Pillars Grid -->
+    <section id="services" class="container">
+        <div class="section-title reveal">
+            <h2>Core <span class="gradient-text">Pillars</span></h2>
+            <p>Deploying advanced AI solutions across academic and industrial landscapes.</p>
+        </div>
+
+        <div class="services-grid">
+            <a href="#edutech" class="service-card card-edu reveal">
+                <div class="service-card-inner">
+                    <div class="icon-box"><i data-lucide="graduation-cap"></i></div>
+                    <h3>AI Education</h3>
+                    <p>Modern GenAI frameworks and Institutional RAG systems designed for high-performance academic
+                        results.</p>
+                </div>
+            </a>
+
+            <a href="#development" class="service-card card-dev reveal" style="transition-delay: 100ms;">
+                <div class="service-card-inner">
+                    <div class="icon-box"><i data-lucide="terminal"></i></div>
+                    <h3>AI Development</h3>
+                    <p>Custom LLM fine-tuning, Agentic workflows, and bespoke architectures for complex business logic.
+                    </p>
+                </div>
+            </a>
+
+            <a href="#corporate" class="service-card card-corp reveal" style="transition-delay: 200ms;">
+                <div class="service-card-inner">
+                    <div class="icon-box"><i data-lucide="users"></i></div>
+                    <h3>Corporate Training</h3>
+                    <p>High-impact workshops on prompt engineering, AI strategy, and leadership-ready orchestration.</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Interactive AI Tool Section -->
+    <section class="ai-tool-section reveal">
+        <div class="container">
+            <div class="ai-tool-card">
+                <div style="text-align: center;">
+                    <h2 class="section-title" style="margin-bottom: 1rem;">Experience the <span
+                            class="gradient-text">Future</span></h2>
+                    <p style="color: var(--text-dim);">Input a business problem or educational topic to see how our AI
+                        orchestration pillars solve it.</p>
+                </div>
+
+                <div class="ai-input-group">
+                    <textarea id="ai-user-query" class="ai-textarea"
+                        placeholder="e.g., How can I automate inventory tracking using AI agents? or Explain Quantum RAG to me."></textarea>
+                    <button id="ai-generate-btn" class="ai-btn" onclick="generateAiStrategy()">
+                        <span>Generate AI Strategy ✨</span>
+                    </button>
+
+                    <div id="ai-result" class="ai-result-box">
+                        <div id="ai-result-content"
+                            style="white-space: pre-wrap; color: var(--text-white); font-size: 0.95rem;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Section: AI Education -->
+    <section id="edutech" class="detail-section">
+        <div class="container detail-content">
+            <div class="detail-text reveal">
+                <h3>AI <span class="gradient-text">Education</span></h3>
+                <p>Belgaum.ai is bridging the academic gap with GenAI-native ecosystems. We deploy Retrieval-Augmented
+                    Generation (RAG) for institutional knowledge and LLM-powered socratic tutors.</p>
+                <ul class="feature-list">
+                    <li><i data-lucide="cpu"></i> Institutional GenAI Knowledge Bases</li>
+                    <li><i data-lucide="mic"></i> LLM-Powered Socratic Tutors</li>
+                    <li><i data-lucide="search"></i> Semantic Search for Academic Papers</li>
+                    <li><i data-lucide="activity"></i> RAG-Driven Research Assistance</li>
+                </ul>
+            </div>
+            <div class="reveal">
+                <div class="enhanced-card">
+                    <h4><i data-lucide="brain"></i> Personalized Learning</h4>
+                    <ul>
+                        <li>RAG systems trained on proprietary university curriculum for instant, accurate student
+                            support.</li>
+                        <li>Automated synthetic data generation to create bespoke mock examinations and practice drills.
+                        </li>
+                        <li>Multimodal GenAI avatars that adapt to visual, auditory, or text-heavy learning styles.</li>
+                        <li>Real-time LLM-driven citation and plagiarism cross-referencing for academic integrity.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container reveal">
+            <div class="tools-explainer">
+                <h5>Tools Used In: GenAI Learning Ecosystem</h5>
+                <div class="tools-grid-explained">
+                    <div class="tool-box-info">
+                        <strong>OpenAI o1 / Claude 3.5</strong>
+                        <p>State-of-the-art reasoning models used for complex academic problem solving and deep logic
+                            analysis.</p>
+                    </div>
+                    <div class="tool-box-info">
+                        <strong>Spring AI (Java Ecosystem)</strong>
+                        <p>A specialized framework bringing enterprise-grade AI integration to the Java academic
+                            development stack.</p>
+                    </div>
+                    <div class="tool-box-info">
+                        <strong>LlamaIndex (RAG Framework)</strong>
+                        <p>The core data engine used to index massive institutional libraries into queryable vector
+                            knowledge bases.</p>
+                    </div>
+                    <div class="tool-box-info">
+                        <strong>NotebookLM</strong>
+                        <p>Google's grounded research tool for cross-referencing thousands of sources with zero
+                            hallucination.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Section: AI Development -->
+    <section id="development" class="detail-section" style="background: rgba(255,255,255,0.01);">
+        <div class="container detail-content" style="direction: rtl;">
+            <div class="detail-text reveal" style="direction: ltr;">
+                <h3>AI <span class="gradient-text">Development</span></h3>
+                <p>We build production-grade agentic systems that operate beyond simple chat interfaces. Our systems
+                    plan, self-correct, and execute complex industrial workflows autonomously.</p>
+                <ul class="feature-list">
+                    <li><i data-lucide="git-branch"></i> Multi-Agent Orchestration (LangGraph)</li>
+                    <li><i data-lucide="database"></i> Advanced RAG with Vector Memory</li>
+                    <li><i data-lucide="zap"></i> Sub-second Inference Optimization</li>
+                    <li><i data-lucide="shield-check"></i> Sovereign AI Guardrails</li>
+                </ul>
+            </div>
+            <div class="reveal" style="direction: ltr;">
+                <div class="enhanced-card" style="border-color: var(--accent-purple);">
+                    <h4><i data-lucide="bot"></i> Agentic Workflows</h4>
+                    <ul>
+                        <li>Autonomous agents designed for goal-oriented task execution without constant human
+                            prompting.</li>
+                        <li>Self-healing execution loops that verify AI outputs against industrial ground truth.</li>
+                        <li>Multi-step stateful orchestration allowing agents to handle complex operations over long
+                            periods.</li>
+                        <li>Deep integration with legacy CRMs and ERPs through custom-built API connectors.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container reveal">
+            <div class="tools-explainer">
+                <h5>Tools Used In: Agentic Orchestration Stack</h5>
+                <div class="tools-grid-explained">
+                    <div class="tool-box-info">
+                        <strong>LangGraph & CrewAI</strong>
+                        <p>Frameworks for building multi-agent swarms that collaborate to solve complex, non-linear
+                            business problems.</p>
+                    </div>
+                    <div class="tool-box-info">
+                        <strong>Voice Bots (Whisper/ElevenLabs)</strong>
+                        <p>High-fidelity speech-to-text and cloned-voice synthesis for advanced customer interaction
+                            portals.</p>
+                    </div>
+                    <div class="tool-box-info">
+                        <strong>Pinecone / ChromaDB</strong>
+                        <p>Vector databases essential for high-speed retrieval in RAG systems and long-term agentic
+                            memory.</p>
+                    </div>
+                    <div class="tool-box-info">
+                        <strong>Next.js & FastAPI</strong>
+                        <p>Modern web stack used to deploy custom Knowledge-Based AI portals with ultra-low latency.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Section: Corporate Training -->
+    <section id="corporate" class="detail-section">
+        <div class="container detail-content">
+            <div class="detail-text reveal">
+                <h3>Corporate <span class="gradient-text">Training</span></h3>
+                <p>The workforce is changing. We transform legacy teams into AI-native powerhouses, focusing on
+                    high-level orchestration skills that can't be automated.</p>
+                <ul class="feature-list">
+                    <li><i data-lucide="target"></i> ROI-Driven AI Implementation Labs</li>
+                    <li><i data-lucide="command"></i> Professional Prompt Engineering</li>
+                    <li><i data-lucide="workflow"></i> AI-Augmented Operations Design</li>
+                    <li><i data-lucide="lock"></i> AI Policy & Governance Frameworks</li>
+                </ul>
+            </div>
+            <div class="reveal">
+                <div class="enhanced-card" style="border-color: var(--accent-emerald);">
+                    <h4><i data-lucide="trending-up"></i> Upskilling Leaders</h4>
+                    <ul>
+                        <li>Empowering executive leadership with AI-driven scenario modeling for better risk management.
+                        </li>
+                        <li>Training managers to integrate LLMs into daily administrative and strategic decision
+                            workflows.</li>
+                        <li>Establishing comprehensive AI Governance to handle privacy, ethics, and security in
+                            deployment.</li>
+                        <li>Driving an "AI-First" organizational culture through hands-on experimentation labs.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container reveal">
+            <div class="tools-explainer">
+                <h5>Tools Used In: Enterprise AI Suite</h5>
+                <div class="tools-grid-explained">
+                    <div class="tool-box-info">
+                        <strong>Python / Java / Node.js</strong>
+                        <p>The core enterprise languages used to build scalable backends for proprietary AI deployments.
+                        </p>
+                    </div>
+                    <div class="tool-box-info">
+                        <strong>Docker & Kubernetes</strong>
+                        <p>Standard containerization stack for deploying AI models reliably across any cloud
+                            environment.</p>
+                    </div>
+                    <div class="tool-box-info">
+                        <strong>Vector Embeddings</strong>
+                        <p>Cohere and OpenAI embedding models used to transform enterprise data into mathematical
+                            vectors.</p>
+                    </div>
+                    <div class="tool-box-info">
+                        <strong>Perplexity / Glean</strong>
+                        <p>Enterprise search tools used to train teams on discovering proprietary information using
+                            natural language.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="margin-bottom: 1.5rem;">
+                        <i data-lucide="cpu" style="margin-right: 8px; color: var(--accent-cyan);"></i>
+                        <span class="brand">Belgaum</span><span class="suffix">.ai</span>
+                    </div>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">
+                        The premier AI startup of Belgaum, India. Bridging the gap between legacy processes and
+                        autonomous intelligence.
+                    </p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Core Pillars</h4>
+                    <ul style="list-style: none; color: var(--text-dim); font-size: 0.9rem; line-height: 2;">
+                        <li><a href="#edutech" style="text-decoration: none; color: inherit;">AI Education</a></li>
+                        <li><a href="#development" style="text-decoration: none; color: inherit;">AI Development</a>
+                        </li>
+                        <li><a href="#corporate" style="text-decoration: none; color: inherit;">Corporate Training</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Global Contact</h4>
+                    <a href="mailto:ask@belgaum.ai" class="contact-link">
+                        <i data-lucide="mail"></i> ask@belgaum.ai
+                    </a>
+                    <a href="tel:+919845507313" class="contact-link">
+                        <i data-lucide="phone"></i> +91 98455 07313 (IN)
+                    </a>
+                    <a href="tel:+6586024972" class="contact-link">
+                        <i data-lucide="phone"></i> +65 8602 4972 (SG)
+                    </a>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Locale</h4>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">
+                        Belgaum, Karnataka - India<br>
+                        Sovereign AI Development Hub
+                    </p>
+                </div>
+            </div>
+
+            <div
+                style="text-align: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; color: var(--text-dim); font-size: 0.8rem; letter-spacing: 2px;">
+                &copy; 2026 BELGAUM.AI. SYSTEM DEPLOYMENT IN PROGRESS.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // 1. Particle Network Animation
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        let dots = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        }
+
+        function init() {
+            dots = [];
+            const count = (canvas.width * canvas.height) / 15000;
+            for (let i = 0; i < count; i++) {
+                dots.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5
+                });
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(0, 217, 255, 0.4)';
+            ctx.strokeStyle = 'rgba(0, 217, 255, 0.08)';
+
+            dots.forEach((dot, i) => {
+                dot.x += dot.vx;
+                dot.y += dot.vy;
+                if (dot.x < 0 || dot.x > canvas.width) dot.vx *= -1;
+                if (dot.y < 0 || dot.y > canvas.height) dot.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(dot.x, dot.y, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                for (let j = i + 1; j < dots.length; j++) {
+                    const d2 = dots[j];
+                    const dist = Math.hypot(dot.x - d2.x, dot.y - d2.y);
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(dot.x, dot.y);
+                        ctx.lineTo(d2.x, d2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        animate();
+
+        // 2. Typing Effect
+        const typingText = document.getElementById('typing-text');
+        const phrases = ["Orchestration", "Development", "Training", "EduTech"];
+        let pIdx = 0, charIdx = 0, isDeleting = false;
+
+        function type() {
+            const current = phrases[pIdx];
+            if (isDeleting) {
+                typingText.textContent = current.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                typingText.textContent = current.substring(0, charIdx + 1);
+                charIdx++;
+            }
+
+            let speed = isDeleting ? 50 : 150;
+            if (!isDeleting && charIdx === current.length) {
+                speed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                pIdx = (pIdx + 1) % phrases.length;
+                speed = 500;
+            }
+            setTimeout(type, speed);
+        }
+        setTimeout(type, 1000);
+
+        // 3. Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // 4. Gemini API Integration Logic
+        const apiKey = ""; // Environment provided at runtime
+        const model = "gemini-2.5-flash-preview-09-2025";
+
+        async function generateAiStrategy() {
+            const query = document.getElementById('ai-user-query').value.trim();
+            const btn = document.getElementById('ai-generate-btn');
+            const resultBox = document.getElementById('ai-result');
+            const resultContent = document.getElementById('ai-result-content');
+
+            if (!query) {
+                alert("Please enter a topic or problem first.");
+                return;
+            }
+
+            btn.disabled = true;
+            const originalBtnText = btn.innerHTML;
+            btn.innerHTML = `<div class="spinner"></div> <span>Generating Strategy...</span>`;
+            resultBox.style.display = 'none';
+
+            const systemPrompt = "You are Belgaum.ai's virtual consultant. Based on the user's input (business problem or educational topic), provide a concise 3-step AI integration strategy using our pillars: AI Education, AI Development, and Corporate Training. Keep it professional, visionary, and high-tech. Limit your response to 150 words.";
+
+            try {
+                const response = await fetchWithRetry(query, systemPrompt);
+                const data = await response.json();
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (text) {
+                    resultBox.style.display = 'block';
+                    resultContent.textContent = text;
+                } else {
+                    throw new Error("Invalid API response");
+                }
+            } catch (err) {
+                alert("Failed to reach the AI engine. Please try again later.");
+                console.error(err);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalBtnText;
+            }
+        }
+
+        async function fetchWithRetry(userQuery, systemPrompt, retries = 5, delay = 1000) {
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: userQuery }] }],
+                            systemInstruction: { parts: [{ text: systemPrompt }] }
+                        })
+                    });
+                    if (response.ok) return response;
+                } catch (err) {
+                    if (i === retries - 1) throw err;
+                }
+                await new Promise(resolve => setTimeout(resolve, delay));
+                delay *= 2; // Exponential backoff
+            }
+        }
+    </script>
+</body>
+
+</html>
