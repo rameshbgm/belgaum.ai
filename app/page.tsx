@@ -265,8 +265,8 @@ export default function Home() {
       <section id="tools" className="detail-section tools-section">
         <div className="container">
           <div className="section-title reveal">
-            <h2>The AI <span className="gradient-text">Orchestration Stack</span></h2>
-            <p>Our comprehensive toolset for building and deploying future-ready intelligence.</p>
+            <h2>The <span className="gradient-text">Orchestration Nexus</span></h2>
+            <p>An elite ecosystem of sovereign tools engineered to build, scale, and master the AI frontier.</p>
           </div>
 
           <div className="tools-master-grid">

@@ -811,26 +811,40 @@ header {
 }
 
 .tools-master-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
   margin-top: 4rem;
 }
 
+@media (max-width: 1100px) {
+  .tools-master-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .tools-master-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .tools-explainer {
-  padding: 2.5rem;
+  padding: 1.5rem;
   background: rgba(255, 255, 255, 0.02);
-  border-radius: 24px;
+  border-radius: 20px;
   border: 1px solid var(--glass-border);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
 }
 
 .tools-explainer h5 {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   color: var(--accent-cyan);
   margin-bottom: 2rem;
   text-align: center;
@@ -838,9 +852,9 @@ header {
 }
 
 .tools-grid-explained {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .tool-box-info {
