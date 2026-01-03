@@ -101,45 +101,52 @@ export default function Home() {
           Enterprise AI <br />
           <span className="gradient-text">{typingText}</span>
         </h1>
-        <p>
-          We are building a world-class AI ecosystem in Belgaum. From Gen AI & RAG systems to Agentic workflows and
-          Corporate training, the future of intelligence starts here.
-        </p>
+      </section>
+
+      <section className="mission-section reveal">
+        <div className="container">
+          <p className="mission-text">
+            We are building a world-class AI ecosystem in Belgaum. From Gen AI & RAG systems to Agentic workflows and
+            Corporate training, the future of intelligence starts here.
+          </p>
+        </div>
       </section>
 
       {/* Core Pillars Grid */}
-      <section id="services" className="container">
-        <div className="section-title reveal">
-          <h2>Core <span className="gradient-text">Pillars</span></h2>
-          <p>Deploying advanced AI solutions across academic and industrial landscapes.</p>
-        </div>
+      <section id="services" className="services-section">
+        <div className="container">
+          <div className="section-title reveal">
+            <h2>Core <span className="gradient-text">Pillars</span></h2>
+            <p>Deploying advanced AI solutions across academic and industrial landscapes.</p>
+          </div>
 
-        <div className="services-grid">
-          <a href="#edutech" className="service-card card-edu reveal">
-            <div className="service-card-inner">
-              <div className="icon-box"><GraduationCap /></div>
-              <h3>AI Education</h3>
-              <p>Modern GenAI frameworks and Institutional RAG systems designed for high-performance academic
-                results.</p>
-            </div>
-          </a>
+          <div className="services-grid">
+            <a href="#edutech" className="service-card card-edu reveal">
+              <div className="service-card-inner">
+                <div className="icon-box"><GraduationCap /></div>
+                <h3>AI Education</h3>
+                <p>Modern GenAI frameworks and Institutional RAG systems designed for high-performance academic
+                  results.</p>
+              </div>
+            </a>
 
-          <a href="#development" className="service-card card-dev reveal">
-            <div className="service-card-inner">
-              <div className="icon-box"><Terminal /></div>
-              <h3>AI Development</h3>
-              <p>Custom LLM fine-tuning, Agentic workflows, and bespoke architectures for complex business logic.
-              </p>
-            </div>
-          </a>
+            <a href="#development" className="service-card card-dev reveal">
+              <div className="service-card-inner">
+                <div className="icon-box"><Terminal /></div>
+                <h3>AI Development</h3>
+                <p>Custom LLM fine-tuning, Agentic workflows, and bespoke architectures for complex business logic.
+                </p>
+              </div>
+            </a>
 
-          <a href="#corporate" className="service-card card-corp reveal">
-            <div className="service-card-inner">
-              <div className="icon-box"><Users /></div>
-              <h3>Corporate Training</h3>
-              <p>High-impact workshops on prompt engineering, AI strategy, and leadership-ready orchestration.</p>
-            </div>
-          </a>
+            <a href="#corporate" className="service-card card-corp reveal">
+              <div className="service-card-inner">
+                <div className="icon-box"><Users /></div>
+                <h3>Corporate Training</h3>
+                <p>High-impact workshops on prompt engineering, AI strategy, and leadership-ready orchestration.</p>
+              </div>
+            </a>
+          </div>
         </div>
       </section>
 

@@ -194,6 +194,28 @@ header {
   max-width: 750px;
 }
 
+.mission-section {
+  padding: 100px 1.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.mission-text {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.35rem;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.services-section {
+  padding: 120px 0 60px;
+}
+
 /* Pillars Section */
 .container {
   max-width: 1200px;
