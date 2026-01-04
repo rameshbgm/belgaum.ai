@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model ChatAudit {
+  id           Int      @id @default(autoincrement())
+  sessionId    String   @map("session_id")
+  userRequest  String?  @map("user_request") @db.Text
+  botResponse  String?  @map("bot_response") @db.Text
+  dateTime     DateTime @default(now()) @map("date_time")
+
+  @@map("chat_audit")
+}

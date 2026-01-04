@@ -1,0 +1,17 @@
+Session ID: sid_1767501671266_ka0dax
+Date Time: 1/4/2026, 1:04:43 PM
+------------------------------------------
+USER REQUEST:
+[NEW_SESSION]
+
+------------------------------------------
+BOT RESPONSE:
+Greetings! Welcome to Belgaum.ai.
+
+We are Strategic AI Orchestrators specialized in:
+• Building sovereign AI architectures for total ownership.
+• Deploying sub-second RAG and agentic workflows.
+• Scaling enterprise intelligence through expert-led training.
+
+How can we help you build the future today?
+------------------------------------------

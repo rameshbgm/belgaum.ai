@@ -1,0 +1,12 @@
+Session ID: sid_1767501671266_ka0dax
+Date Time: 1/4/2026, 1:03:23 PM
+------------------------------------------
+USER REQUEST:
+need java training
+
+------------------------------------------
+BOT RESPONSE:
+Understood. We focus on advanced AI training that prepares your team to lead AI agents and implement AI solutions, rather than traditional programming languages like Java. Our programs emphasize prompt engineering, ethical AI governance, and hands-on ROI-driven implementation labs.
+
+Are you looking to upskill your team in AI development, build AI systems, or both?
+------------------------------------------
