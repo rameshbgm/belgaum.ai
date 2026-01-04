@@ -3,7 +3,7 @@ export const CHAT_CONFIG = {
     HISTORY_DURATION_SECONDS: Number(process.env.NEXT_PUBLIC_CHAT_HISTORY_DURATION) || 259200, // Default 3 days
     WELCOME_MESSAGE: "Greetings! Welcome to Belgaum.ai.\n\nWe are Strategic AI Orchestrators specialized in:\n• Building sovereign AI architectures for total ownership.\n• Deploying sub-second RAG and agentic workflows.\n• Scaling enterprise intelligence through expert-led training.\n\nHow can we help you build the future today?",
     PLACEHOLDER_TEXT: "Describe your AI challenge...",
-    INPUT_LABEL: "Strategic AI Assistant",
+    INPUT_LABEL: "This is AI-generated content provided for informational purposes only. While Belgaum.ai strives for precision, our automated strategic assistant may occasionally produce incorrect, misleading, or outdated information. Users are strongly advised to independently verify all critical details—including pricing, technical specifications, and schedules—before taking any business action. Belgaum.ai assumes no liability for errors or omissions in this automated dialogue. For binding agreements or complex queries, please verify directly with our human specialists.",
     MAX_RESPONSE_TOKENS: 500,
     INACTIVITY_NUDGE_SECONDS: 300,
     MAX_NUDGES: 2,

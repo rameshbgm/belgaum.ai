@@ -7,7 +7,7 @@ import { OPENAI_CONFIG } from "@/lib/openai-config";
 import { GEMINI_CONFIG } from "@/lib/gemini-config";
 import { SYSTEM_PROMPT } from "@/data/prompts";
 import { auditChatInteraction } from "@/lib/db-actions";
-import { Fingerprint, MessageCircle, Minimize2, Send, X, User, Cpu } from "lucide-react";
+import { Fingerprint, MessageCircle, Minimize2, Send, X, User, Cpu, Download } from "lucide-react";
 
 export default function Chatbot() {
     const [isOpen, setIsOpen] = useState(false);
@@ -364,10 +364,13 @@ export default function Chatbot() {
         // Deep linking for mobile, Web for desktop
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
+        // Extract phone number from config (removing non-digits)
+        const phoneNumber = CHAT_CONFIG.WHATSAPP_LINK.replace(/\D/g, '');
+
         if (isMobile) {
-            window.location.href = `https://wa.me/919945033005?text=${encodedMsg}`;
+            window.location.href = `https://wa.me/${phoneNumber}?text=${encodedMsg}`;
         } else {
-            window.open(`${CHAT_CONFIG.WHATSAPP_LINK}?text=${encodedMsg}`, "_blank");
+            window.open(`https://web.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMsg}`, "_blank");
         }
     };
 
@@ -384,6 +387,24 @@ export default function Chatbot() {
         });
     };
 
+    const handleDownloadChat = () => {
+        const chatText = messages.map(m => {
+            const time = formatMessageTime(m.timestamp);
+            const role = m.role === 'user' ? 'User' : 'Assistant';
+            return `[${time}] ${role}:\n${m.content}\n${'-'.repeat(40)}\n`;
+        }).join('\n');
+
+        const blob = new Blob([chatText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `belgaum_ai_chat_${sessionId}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
     return (
         <>
             <div className={`chat-overlay ${isOpen ? "open" : ""}`} onClick={() => setIsOpen(false)} />
@@ -397,6 +418,9 @@ export default function Chatbot() {
                             </div>
                         </div>
                         <div className="chat-controls">
+                            <button className="chat-control-btn" onClick={handleDownloadChat} aria-label="Download Chat" title="Download History">
+                                <Download size={18} />
+                            </button>
                             <button className="chat-control-btn" onClick={() => setIsOpen(false)} aria-label="Minimize" title="Minimize">
                                 <Minimize2 size={18} />
                             </button>
@@ -462,6 +486,22 @@ export default function Chatbot() {
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
                             />
+                            {/* In-Input Character Count */}
+                            <span
+                                style={{
+                                    position: 'absolute',
+                                    right: '60px',
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
+                                    fontSize: '0.7rem',
+                                    boxShadow: 'none',
+                                    pointerEvents: 'none',
+                                    color: `rgb(${Math.min(255, (input.length / CHAT_CONFIG.MAX_INPUT_LENGTH) * 255 * 2)}, ${Math.min(255, (1 - input.length / CHAT_CONFIG.MAX_INPUT_LENGTH) * 255 * 2)}, 0)`,
+                                    fontWeight: input.length > (CHAT_CONFIG.MAX_INPUT_LENGTH - 20) ? 'bold' : 'normal'
+                                }}
+                            >
+                                ({CHAT_CONFIG.MAX_INPUT_LENGTH - input.length})
+                            </span>
                             <button
                                 className="chat-send-btn"
                                 onClick={handleSend}
@@ -474,20 +514,11 @@ export default function Chatbot() {
                         </div>
                         <div className="input-info">
                             <span className="input-label">{CHAT_CONFIG.INPUT_LABEL}</span>
-                            <span
-                                className="input-count"
-                                style={{
-                                    '--count-color': `rgb(${Math.min(255, (input.length / CHAT_CONFIG.MAX_INPUT_LENGTH) * 255 * 2)}, ${Math.min(255, (1 - input.length / CHAT_CONFIG.MAX_INPUT_LENGTH) * 255 * 2)}, 0)`,
-                                    fontWeight: input.length > (CHAT_CONFIG.MAX_INPUT_LENGTH - 20) ? 'bold' : 'normal'
-                                } as React.CSSProperties}
-                            >
-                                ({input.length}/{CHAT_CONFIG.MAX_INPUT_LENGTH})
-                            </span>
                         </div>
                     </div>
                 </div>
 
-                <button className="chat-button" onClick={() => setIsOpen(!isOpen)} aria-label="Open Chat" title="Open Chat">
+                <button className="chat-button" onClick={() => setIsOpen(!isOpen)} aria-label={isOpen ? "Close Chat" : "Open Chat"} title={isOpen ? "Close Chat" : "Open Chat"}>
                     {isOpen ? <X size={30} /> : <MessageCircle size={30} />}
                 </button>
             </div>

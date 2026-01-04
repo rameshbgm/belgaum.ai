@@ -550,14 +550,30 @@ header {
 .chat-input-row {
   display: flex;
   gap: 12px;
+  position: relative;
+  /* For absolute positioning of count */
 }
 
 .input-info {
-  font-size: 0.75rem;
-  color: var(--text-dim);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 400;
+  color: #fb923c;
   display: flex;
-  justify-content: space-between;
-  padding: 0 4px;
+  flex-direction: column;
+  /* Stack them */
+  padding: 4px 6px;
+  background: transparent;
+  margin-top: 6px;
+  gap: 4px;
+}
+
+.input-label {
+  order: 2;
+  /* Move label to bottom */
+  text-align: justify;
+  line-height: 1.3;
+  opacity: 0.9;
 }
 
 .input-error {
@@ -568,26 +584,33 @@ header {
   color: #4ade80;
 }
 
-.input-count {
-  color: var(--count-color, #4ade80);
-  font-size: 0.8rem;
-  transition: color 0.3s, font-weight 0.3s;
-}
+/* Count is now inside the input */
 
 .chat-input {
   flex: 1;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 0.8rem 3.5rem 0.8rem 1.2rem;
+  /* Right padding for count */
   color: white;
   outline: none;
-  font-family: inherit;
-  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  /* Readable font */
+  font-size: 0.95rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.chat-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .chat-input:focus {
+  background: rgba(255, 255, 255, 0.08);
   border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .chat-send-btn {
