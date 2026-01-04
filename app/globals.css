@@ -451,10 +451,13 @@ header {
 }
 
 .message {
-  max-width: 85%;
+  width: 100%;
+  max-width: 100%;
   padding: 1rem 1.25rem;
   border-radius: 20px;
-  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
   line-height: 1.6;
   word-wrap: break-word;
   display: flex;
@@ -490,7 +493,7 @@ header {
 }
 
 .message.user {
-  align-self: flex-end;
+  align-self: stretch;
   background: var(--primary);
   color: white;
   border-bottom-right-radius: 4px;
@@ -498,7 +501,7 @@ header {
 }
 
 .message.assistant {
-  align-self: flex-start;
+  align-self: stretch;
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-white);
   border-bottom-left-radius: 4px;

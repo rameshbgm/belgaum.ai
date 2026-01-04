@@ -1,0 +1,47 @@
+# Standard .htaccess for Next.js Static Export on Hostinger
+RewriteEngine On
+RewriteBase /
+
+# Enable Gzip Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+
+# Disable Caching to ensure newest version is always served
+<IfModule mod_headers.c>
+    # Disable cache for HTML files (the entry points)
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires 0
+    </FilesMatch>
+    
+    # Disable cache for JS and CSS files
+    <FilesMatch "\.(js|css)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires 0
+    </FilesMatch>
+
+    # Ensure the server doesn't block the _next folder
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
+# Redirect all requests to the .html version of the file
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# Handle assets in the _next folder
+RewriteCond %{REQUEST_URI} ^/_next/static/(.*)$ [OR]
+RewriteCond %{REQUEST_URI} ^/_next/data/(.*)$
+RewriteRule ^(.*)$ $1 [L]

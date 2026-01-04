@@ -1,0 +1,18 @@
+Session ID: sid_1767501671266_ka0dax
+Date Time: 1/4/2026, 1:07:13 PM
+------------------------------------------
+USER REQUEST:
+need java training 
+
+------------------------------------------
+BOT RESPONSE:
+Understood. We focus on AI-driven education and development. While we don't offer traditional Java training, we can help you integrate AI into your Java development lifecycle or train your teams on AI concepts that complement Java skills.
+
+Are you looking to:
+1. Upskill your team in AI technologies that can be applied to Java projects?
+2. Automate parts of your Java development process using AI?
+3. Build AI-powered features into your Java applications?
+
+Let's connect you directly with our AI specialists to discuss how we can align AI training and development to your specific needs.
+[OFFER_WHATSAPP]
+------------------------------------------
