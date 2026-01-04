@@ -216,6 +216,7 @@ export default function Chatbot() {
                     }
                 }
             } catch (err) {
+                console.error("[OpenAI] API Error:", err);
                 setIsTyping(false);
                 updateStreamingContent("OpenAI Connection Error.");
             }
@@ -282,6 +283,7 @@ export default function Chatbot() {
                     }
                 }
             } catch (err) {
+                console.error("[Gemini] API Error:", err);
                 setIsTyping(false);
                 updateStreamingContent("Gemini Connection Error.");
             }
