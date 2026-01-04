@@ -550,8 +550,8 @@ header {
 .chat-input-row {
   display: flex;
   gap: 12px;
-  position: relative;
-  /* For absolute positioning of count */
+  align-items: center;
+  /* Ensure items align vertically */
 }
 
 .input-info {
@@ -591,8 +591,7 @@ header {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
-  padding: 0.8rem 3.5rem 0.8rem 1.2rem;
-  /* Right padding for count */
+  padding: 0.8rem 1.2rem;
   color: white;
   outline: none;
   font-family: 'Inter', sans-serif;

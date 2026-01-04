@@ -478,7 +478,13 @@ export default function Chatbot() {
                     </div>
 
                     <div className="chat-input-area">
-                        <div className="chat-input-row">
+                        <form
+                            className="chat-input-row"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                handleSend();
+                            }}
+                        >
                             <input
                                 type="text"
                                 className="chat-input"
@@ -486,34 +492,32 @@ export default function Chatbot() {
                                 value={input}
                                 maxLength={CHAT_CONFIG.MAX_INPUT_LENGTH}
                                 onChange={(e) => setInput(e.target.value)}
-                                onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                                enterKeyHint="send"
                             />
-                            {/* In-Input Character Count */}
                             <span
                                 style={{
-                                    position: 'absolute',
-                                    right: '60px',
-                                    top: '50%',
-                                    transform: 'translateY(-50%)',
-                                    fontSize: '0.7rem',
-                                    boxShadow: 'none',
-                                    pointerEvents: 'none',
+                                    alignSelf: 'center',
+                                    fontSize: '0.75rem',
                                     color: `rgb(${Math.min(255, (input.length / CHAT_CONFIG.MAX_INPUT_LENGTH) * 255 * 2)}, ${Math.min(255, (1 - input.length / CHAT_CONFIG.MAX_INPUT_LENGTH) * 255 * 2)}, 0)`,
-                                    fontWeight: input.length > (CHAT_CONFIG.MAX_INPUT_LENGTH - 20) ? 'bold' : 'normal'
+                                    fontWeight: input.length > (CHAT_CONFIG.MAX_INPUT_LENGTH - 20) ? 'bold' : 'normal',
+                                    minWidth: '35px',
+                                    textAlign: 'right',
+                                    marginRight: '4px'
                                 }}
                             >
-                                ({CHAT_CONFIG.MAX_INPUT_LENGTH - input.length})
+                                {CHAT_CONFIG.MAX_INPUT_LENGTH - input.length}
                             </span>
                             <button
+                                type="submit"
                                 className="chat-send-btn"
-                                onClick={handleSend}
                                 disabled={!input.trim() || isTyping || input.length > CHAT_CONFIG.MAX_INPUT_LENGTH}
                                 aria-label="Send Message"
                                 title={input.length >= CHAT_CONFIG.MAX_INPUT_LENGTH ? "Message limit reached" : "Send Message"}
+                                style={{ flexShrink: 0 }}
                             >
                                 <Send size={18} />
                             </button>
-                        </div>
+                        </form>
                         <div className="input-info">
                             <span className="input-label">{CHAT_CONFIG.INPUT_LABEL}</span>
                         </div>
