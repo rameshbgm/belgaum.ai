@@ -412,23 +412,25 @@ export default function Chatbot() {
             <div className={`chat-overlay ${isOpen ? "open" : ""}`} onClick={() => setIsOpen(false)} />
             <div className="chatbot-widget">
                 <div className={`chat-window ${isOpen ? "open" : ""}`}>
-                    <div className="chat-header">
-                        <div className="chat-header-info">
-                            <span className="chat-header-title">Belgaum.ai Support</span>
-                            <div className="chat-header-session" style={{ fontSize: '9px', opacity: 0.6, display: 'flex', alignItems: 'center', gap: '3px', marginTop: '-2px' }}>
-                                <Fingerprint size={9} /> {sessionId}
+                    <div className="chat-header" style={{ flexDirection: 'column', alignItems: 'stretch' }}>
+                        <div className="chat-header-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                            <div className="chat-header-info">
+                                <span className="chat-header-title">Belgaum.ai Support</span>
+                                <div className="chat-header-session" style={{ fontSize: '9px', opacity: 0.6, display: 'flex', alignItems: 'center', gap: '3px', marginTop: '-2px' }}>
+                                    <Fingerprint size={9} /> {sessionId}
+                                </div>
+                            </div>
+                            <div className="chat-controls">
+                                <button className="chat-control-btn" onClick={handleDownloadChat} aria-label="Download Chat" title="Download History">
+                                    <Download size={18} />
+                                </button>
+                                <button className="chat-control-btn close-btn" onClick={() => setIsOpen(false)} aria-label="Close Chat" title="Close">
+                                    <X size={18} />
+                                </button>
                             </div>
                         </div>
-                        <div className="chat-controls">
-                            <button className="chat-control-btn" onClick={handleDownloadChat} aria-label="Download Chat" title="Download History">
-                                <Download size={18} />
-                            </button>
-                            <button className="chat-control-btn" onClick={() => setIsOpen(false)} aria-label="Minimize" title="Minimize">
-                                <Minimize2 size={18} />
-                            </button>
-                            <button className="chat-control-btn close-btn" onClick={() => setIsOpen(false)} aria-label="Close" title="Close">
-                                <X size={18} />
-                            </button>
+                        <div className="chat-header-warning" style={{ fontSize: '0.6rem', opacity: 0.7, marginTop: '8px', lineHeight: '1.2', textAlign: 'center', width: '100%' }}>
+                            {CHAT_CONFIG.INPUT_LABEL}
                         </div>
                     </div>
 
@@ -485,48 +487,40 @@ export default function Chatbot() {
                                 handleSend();
                             }}
                         >
-                            <input
-                                type="text"
-                                className="chat-input"
-                                placeholder={CHAT_CONFIG.PLACEHOLDER_TEXT}
-                                value={input}
-                                maxLength={CHAT_CONFIG.MAX_INPUT_LENGTH}
-                                onChange={(e) => setInput(e.target.value)}
-                                enterKeyHint="send"
-                            />
-                            <span
-                                style={{
-                                    alignSelf: 'center',
-                                    fontSize: '0.75rem',
-                                    color: `rgb(${Math.min(255, (input.length / CHAT_CONFIG.MAX_INPUT_LENGTH) * 255 * 2)}, ${Math.min(255, (1 - input.length / CHAT_CONFIG.MAX_INPUT_LENGTH) * 255 * 2)}, 0)`,
-                                    fontWeight: input.length > (CHAT_CONFIG.MAX_INPUT_LENGTH - 20) ? 'bold' : 'normal',
-                                    minWidth: '35px',
-                                    textAlign: 'right',
-                                    marginRight: '4px'
-                                }}
-                            >
-                                {CHAT_CONFIG.MAX_INPUT_LENGTH - input.length}
-                            </span>
-                            <button
-                                type="submit"
-                                className="chat-send-btn"
-                                disabled={!input.trim() || isTyping || input.length > CHAT_CONFIG.MAX_INPUT_LENGTH}
-                                aria-label="Send Message"
-                                title={input.length >= CHAT_CONFIG.MAX_INPUT_LENGTH ? "Message limit reached" : "Send Message"}
-                                style={{ flexShrink: 0 }}
-                            >
-                                <Send size={18} />
-                            </button>
+                            <div className="material-input-container">
+                                <input
+                                    type="text"
+                                    className="material-input-field"
+                                    placeholder={CHAT_CONFIG.PLACEHOLDER_TEXT}
+                                    value={input}
+                                    maxLength={CHAT_CONFIG.MAX_INPUT_LENGTH}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    enterKeyHint="send"
+                                />
+                                <button
+                                    type="submit"
+                                    className="combined-send-btn"
+                                    disabled={!input.trim() || isTyping || input.length > CHAT_CONFIG.MAX_INPUT_LENGTH}
+                                    aria-label="Send Message"
+                                    title={input.length >= CHAT_CONFIG.MAX_INPUT_LENGTH ? "Message limit reached" : "Send Message"}
+                                >
+                                    <Send size={18} />
+                                </button>
+                                <fieldset className="material-input-border">
+                                    <legend className="material-input-legend">
+                                        <span className="count-text">{CHAT_CONFIG.MAX_INPUT_LENGTH - input.length}</span>
+                                    </legend>
+                                </fieldset>
+                            </div>
                         </form>
-                        <div className="input-info">
-                            <span className="input-label">{CHAT_CONFIG.INPUT_LABEL}</span>
-                        </div>
                     </div>
                 </div>
 
-                <button className="chat-button" onClick={() => setIsOpen(!isOpen)} aria-label={isOpen ? "Close Chat" : "Open Chat"} title={isOpen ? "Close Chat" : "Open Chat"}>
-                    {isOpen ? <X size={30} /> : <MessageCircle size={30} />}
-                </button>
+                {!isOpen && (
+                    <button className="chat-button" onClick={() => setIsOpen(true)} aria-label="Open Chat" title="Open Chat">
+                        <MessageCircle size={30} />
+                    </button>
+                )}
             </div>
         </>
     );
