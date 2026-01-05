@@ -173,11 +173,13 @@ export default function Home() {
         </div>
         <div className="container reveal">
           <div className="tech-stack-preview">
-            <span className="tech-tag"><Brain size={14} /> OpenAI o1</span>
-            <span className="tech-tag"><Bot size={14} /> Claude 3.5</span>
-            <span className="tech-tag"><Cpu size={14} /> Spring AI</span>
-            <span className="tech-tag"><Database size={14} /> LlamaIndex</span>
-            <span className="tech-tag"><Search size={14} /> NotebookLM</span>
+            <span className="tech-tag"><Brain size={14} /> GenAI</span>
+            <span className="tech-tag"><Database size={14} /> RAG</span>
+            <span className="tech-tag"><Terminal size={14} /> Lang Framework</span>
+            <span className="tech-tag"><Bot size={14} /> Agenti AI</span>
+            <span className="tech-tag"><Users size={14} /> Crew AI</span>
+            <span className="tech-tag"><Workflow size={14} /> n8n</span>
+            <span className="tech-tag"><Zap size={14} /> make</span>
           </div>
         </div>
       </section>
