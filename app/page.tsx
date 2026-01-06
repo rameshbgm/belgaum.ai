@@ -21,7 +21,11 @@ import {
   Lock,
   TrendingUp,
   Mail,
-  Phone
+  Phone,
+  Link,
+  Cloud,
+  Monitor,
+  Plus
 } from "lucide-react";
 import Background from "@/components/Background";
 import Chatbot from "@/components/Chatbot";
@@ -214,11 +218,15 @@ export default function Home() {
         </div>
         <div className="container reveal">
           <div className="tech-stack-preview">
-            <span className="tech-tag"><GitBranch size={14} /> LangGraph</span>
+            <span className="tech-tag"><Link size={14} /> Lang Chain</span>
             <span className="tech-tag"><Users size={14} /> CrewAI</span>
-            <span className="tech-tag"><Mic size={14} /> ElevenLabs</span>
-            <span className="tech-tag"><Database size={14} /> Pinecone</span>
-            <span className="tech-tag"><Zap size={14} /> FastAPI</span>
+            <span className="tech-tag"><Workflow size={14} /> N8N</span>
+            <span className="tech-tag"><Zap size={14} /> Make</span>
+            <span className="tech-tag"><Cpu size={14} /> Spring AI</span>
+            <span className="tech-tag"><Cloud size={14} /> LLM API</span>
+            <span className="tech-tag"><Terminal size={14} /> ollama</span>
+            <span className="tech-tag"><Monitor size={14} /> LM Studio</span>
+            <span className="tech-tag"><Plus size={14} /> and many more</span>
           </div>
         </div>
       </section>
