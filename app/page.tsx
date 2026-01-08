@@ -370,6 +370,7 @@ export default function Home() {
                 <li><a href="#edutech">AI Education</a></li>
                 <li><a href="#development">AI Development</a></li>
                 <li><a href="#corporate">Corporate Training</a></li>
+                <li><a href="/contact">Contact Us</a></li>
               </ul>
             </div>
 

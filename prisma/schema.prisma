@@ -16,3 +16,18 @@ model ChatAudit {
 
   @@map("chat_audit")
 }
+
+model ContactRequest {
+  id              Int       @id @default(autoincrement())
+  fullName        String    @map("full_name") @db.VarChar(255)
+  email           String    @db.VarChar(255)
+  phone           String    @db.VarChar(20)
+  description     String    @db.Text
+  createdAt       DateTime  @default(now()) @map("created_at")
+  isResponded     Boolean   @default(false) @map("is_responded")
+  respondedAt     DateTime? @map("responded_at")
+  responseContent String?   @map("response_content") @db.Text
+  respondedBy     String?   @map("responded_by") @db.VarChar(255)
+
+  @@map("contact_requests")
+}
